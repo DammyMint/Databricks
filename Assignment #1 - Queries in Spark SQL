@@ -1,0 +1,66 @@
+DROP TABLE IF EXISTS fireIncidents;
+
+CREATE TABLE IF NOT EXISTS fireIncidents
+USING csv
+OPTIONS (
+  header "true",
+  path "/mnt/davis/fire-incidents/fire-incidents-2016.csv",
+  inferSchema "true"
+)
+
+--Create a new table called fireIncidents for this dataset. Be sure to use options to properly parse the data.
+ SELECT *
+ FROM fireIncidents
+ LIMIT 10;
+    
+--What is the first value for "Incident Number" on April 4th, 2016?
+ SELECT *
+ FROM fireIncidents
+ WHERE `Incident Date`= '04/04/2016';
+    
+--Is the first fire call in this table on Brooke or Conor's birthday?
+  SELECT *
+  FROM fireIncidents
+  WHERE `Incident Date`= '04/04/2016'
+  OR `Incident Date`= '09/27/2016' ;
+  
+--Return all incidents on either Conor or Brooke's birthday where the Station Area is greater than 20.
+ SELECT *
+ FROM fireIncidents
+ WHERE (`Incident Date`= '04/04/2016' OR `Incident Date`= '09/27/2016')
+ AND `Station Area` > 20;
+ 
+--Aggregate functions compute a single result value from a set of input values. Use the aggregate function COUNT to count the total records in the dataset.
+ SELECT *
+ FROM fireIncidents
+ WHERE (`Incident Date`= '04/04/2016' OR `Incident Date`= '09/27/2016')
+ AND `Station Area` > 20;
+ 
+--How many incidents were on Conor's birthday in 2016?
+ SELECT count(*)
+ FROM fireIncidents
+ WHERE `Incident Date`= '04/04/2016'
+ 
+--How many fire calls had an "Ignition Cause" of "4 act of nature"?
+ SELECT count(*)
+ FROM fireIncidents
+ WHERE `Ignition Cause` = "4 act of nature"
+ 
+ --Create the table fireCalls if it doesn't already exist. The path is as follows: /mnt/davis/fire-calls/fire-calls-truncated-comma.csv
+ DROP TABLE IF EXISTS fireCalls;
+
+CREATE TABLE IF NOT EXISTS fireCalls
+USING csv
+OPTIONS (
+  header "true",
+  path "/mnt/davis/fire-calls/fire-calls-truncated-comma.csv",
+  inferSchema "true"
+)
+
+ SELECT count(*)
+ FROM fireIncidents
+ INNER JOIN fireCalls
+ ON fireIncidents.Battalion = fireCalls.Battalion;
+
+    
+   
