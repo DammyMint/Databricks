@@ -46,6 +46,12 @@ OPTIONS (
  FROM fireIncidents
  WHERE `Ignition Cause` = "4 act of nature"
  
+ --What is the most common "Ignition Cause"?
+ SELECT `Ignition Cause`, COUNT(*) AS `Ignition cause count`
+ FROM fireIncidents
+ GROUP BY `Ignition Cause`
+ ORDER BY 2 ASC;
+ 
  --Create the table fireCalls if it doesn't already exist. The path is as follows: /mnt/davis/fire-calls/fire-calls-truncated-comma.csv
  DROP TABLE IF EXISTS fireCalls;
 
